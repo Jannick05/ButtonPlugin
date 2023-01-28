@@ -77,9 +77,10 @@ public class Admin implements CommandExecutor {
                     Button.regionsYML.set("regions." + regionName + ".pos2.x", Loc2.getX());
                     Button.regionsYML.set("regions." + regionName + ".pos2.y", Loc2.getY());
                     Button.regionsYML.set("regions." + regionName + ".pos2.z", Loc2.getZ());
-                    Button.regionsYML.set("regions." + regionName + ".price", 50);
-                    Button.regionsYML.set("regions." + regionName + ".multiplier", 1);
+                    //Button.regionsYML.set("regions." + regionName + ".price", 50);
+                    //Button.regionsYML.set("regions." + regionName + ".multiplier", 1);
                     Button.regions.saveConfig();
+                    Regions.loadRegions();
 
                 } else {
                     p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Denne region eksistere allerede!"));
@@ -111,6 +112,16 @@ public class Admin implements CommandExecutor {
             try {
                 Button.config.reloadConfig();
                 Button.configYML = Button.config.getConfig();
+
+                Button.stats.reloadConfig();
+                Button.statsYML = Button.stats.getConfig();
+
+                Button.regions.reloadConfig();
+                Button.regionsYML = Button.regions.getConfig();
+
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    Stats.loadAccount(player);
+                }
 
                 reloadSuccess = true;
             } catch(Exception e){

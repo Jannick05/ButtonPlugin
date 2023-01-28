@@ -56,7 +56,7 @@ public class GUI {
         meta.setDisplayName(name);
 
         // Set the lore of the item
-        meta.setLore(Arrays.asList(lore));
+        meta.setLore(Arrays.asList(Chat.colored(Arrays.toString(lore))));
 
         item.setItemMeta(meta);
 
@@ -71,23 +71,25 @@ public class GUI {
 
 
     public static ItemStack getSkull(String url) {
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
-        if (url.isEmpty())
-            return head;
-        SkullMeta headMeta = (SkullMeta)head.getItemMeta();
+        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+        if(url.isEmpty())return head;
+
+
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", new Object[] { url }).getBytes());
+        byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
         Field profileField = null;
         try {
             profileField = headMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(headMeta, profile);
-        } catch (NoSuchFieldException|IllegalArgumentException|IllegalAccessException e1) {
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
             e1.printStackTrace();
         }
-        head.setItemMeta((ItemMeta)headMeta);
+        head.setItemMeta(headMeta);
         return head;
     }
+
 
 }

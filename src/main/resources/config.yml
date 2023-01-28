@@ -1,3 +1,8 @@
+admins:
+    - "iskoldcool"
+    - "Nydt"
+    - "Shad0wsense"
+
 regions:
     knap1:
         multiplier: 1

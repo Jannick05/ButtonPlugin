@@ -1,9 +1,12 @@
 package dk.button.utils;
 
 import dk.button.Button;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class Stats {
@@ -37,7 +40,18 @@ public class Stats {
         }
         return false;
     }
-    public int getMutli(OfflinePlayer PlayerName) {
+    public boolean remMulti(OfflinePlayer PlayerName, Integer Amount) {
+        if (statsMulti.containsKey(PlayerName.getUniqueId())) {
+            int result = (int) statsMulti.get(PlayerName.getUniqueId()) - Amount;
+
+            statsMulti.put(PlayerName.getUniqueId(), result);
+            Button.statsYML.set("Accounts."+ PlayerName.getUniqueId()+".Multi", result);
+            Button.stats.saveConfig();
+            return true;
+        }
+        return false;
+    }
+    public int getMulti(OfflinePlayer PlayerName) {
         if (statsMulti.containsKey(PlayerName.getUniqueId())) {
             return (int) statsMulti.get(PlayerName.getUniqueId());
         }
@@ -74,7 +88,7 @@ public class Stats {
     }
 
     public boolean hasAccount(OfflinePlayer PlayerName) {
-        return statsMulti.containsKey("Accounts."+PlayerName.getUniqueId()+".Multi");
+        return Button.statsYML.contains("Accounts."+PlayerName.getUniqueId());
     }
 
     public boolean deleteAccount(OfflinePlayer PlayerName) {

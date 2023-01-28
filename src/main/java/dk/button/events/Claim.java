@@ -45,11 +45,12 @@ public class Claim implements Listener {
         ItemStack item = p.getItemInHand();
         Material material = item.getType();
 
-        Double x = event.getClickedBlock().getLocation().getX();
-        Double y = event.getClickedBlock().getLocation().getY();
-        Double z = event.getClickedBlock().getLocation().getZ();
-
         if(event.getAction().toString().equals("RIGHT_CLICK_BLOCK")) {
+
+            Double x = event.getClickedBlock().getLocation().getX();
+            Double y = event.getClickedBlock().getLocation().getY();
+            Double z = event.getClickedBlock().getLocation().getZ();
+
             if (p.isOp() && p.getGameMode() == GameMode.CREATIVE && material == Material.DIAMOND_AXE) {
                 event.setCancelled(true);
                 p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Du satte pos 2 til (" + x + ", " + y + ", " + z + ")"));
