@@ -23,10 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+
 public final class Button extends JavaPlugin {
     public static Button instance;
     public final Map<UUID, Board> boards = new HashMap<>();
     public static Economy econ = null;
+
     private static PluginManager pluginManager;
     public static Config config, stats, regions;
     public static FileConfiguration configYML, statsYML, regionsYML;
@@ -84,6 +86,7 @@ public final class Button extends JavaPlugin {
         }, 0, 20);
 
         setupEconomy();
+
 
     }
 
