@@ -4,6 +4,7 @@ import dk.button.Button;
 import dk.button.events.Claim;
 import dk.button.utils.Chat;
 import dk.button.utils.Config;
+import dk.button.utils.Regions;
 import dk.button.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -40,7 +41,7 @@ public class Admin implements CommandExecutor {
             return true;
         } else if (args[0].equalsIgnoreCase("getmulti")) {
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
-            sender.sendMessage(Chat.colored("&c" + offlinePlayer.getName() + " &fhar &c" + stats.getMutli(offlinePlayer) + "&f Multiplier"));
+            sender.sendMessage(Chat.colored("&c" + offlinePlayer.getName() + " &fhar &c" + stats.getMulti(offlinePlayer) + "&f Multiplier"));
             return true;
 
         } else if (args[0].equalsIgnoreCase("delete")) {

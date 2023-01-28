@@ -4,12 +4,12 @@ import dk.button.commands.Admin;
 import dk.button.commands.Mad;
 import dk.button.events.Claim;
 import dk.button.events.PlayerJoin;
-import dk.button.events.PlayerMove;
+import dk.button.events.Weather;
 import dk.button.tasks.MoneyLoopTask;
-import dk.button.utils.Config;
+import dk.button.utils.*;
 
-import dk.button.utils.Regions;
-import dk.button.utils.Stats;
+
+import dk.button.utils.board.Board;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,14 +18,18 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public final class Button extends JavaPlugin {
     public static Button instance;
+    public final Map<UUID, Board> boards = new HashMap<>();
     public static Economy econ = null;
     private static PluginManager pluginManager;
     public static Config config, stats, regions;
     public static FileConfiguration configYML, statsYML, regionsYML;
-    public Stats statss = new Stats();
+    public Stats statsT = new Stats();
     @Override
     public void onEnable() {
         pluginManager = getServer().getPluginManager();
@@ -33,9 +37,10 @@ public final class Button extends JavaPlugin {
 
         getCommand("Admin").setExecutor(new Admin());
         getCommand("Mad").setExecutor(new Mad());
-        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-        getServer().getPluginManager().registerEvents(new PlayerMove(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(this), this); //PIskold
+        //getServer().getPluginManager().registerEvents(new PlayerMove(), this);
         getServer().getPluginManager().registerEvents(new Claim(), this);
+        getServer().getPluginManager().registerEvents(new Weather(), this);
 
         //CONFIGS -------------------------------
         //Config.yml
@@ -63,6 +68,19 @@ public final class Button extends JavaPlugin {
 
         Regions.loadRegions();
 
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Stats.loadAccount(player);
+        }
+
+
+
+        getServer().getScheduler().runTaskTimer(this, () -> {
+            System.out.println("getServer().getScheduler().runTaskTimer - 80");
+            for (Board board : this.boards.values()) {
+                updateBoard(board);
+            }
+        }, 0, 20);
+
         setupEconomy();
 
     }
@@ -83,8 +101,20 @@ public final class Button extends JavaPlugin {
         econ = rsp.getProvider();
         return econ != null;
     }
-    public static Button getInstance(){
-        return instance;
+
+
+
+    private void updateBoard(Board board) {
+        board.updateTitle(Chat.colored("&a&lBUTTON &7&o("+Bukkit.getServer().getOnlinePlayers().size()+")"));
+        board.updateLines(
+                "",
+                Chat.colored("&2&l"+board.getPlayer().getName()),
+                Chat.colored("&a〡 &7Credits: &f"+Format.format(Econ.getBalance(board.getPlayer()))),
+                Chat.colored("&a〡 &7Multiplier: &f"+Format.format(statsT.getMulti(board.getPlayer()))),
+                //Chat.colored("&a- &7Rebirth: &f"+Econ.getBalance(board.getPlayer())),
+                "",
+                Chat.colored("&7button.superawesome.dk")
+        );
     }
 
 

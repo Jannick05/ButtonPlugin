@@ -8,20 +8,21 @@ import java.util.UUID;
 
 public class Stats {
 
-    protected static HashMap<UUID, Number> statsMulti = new HashMap<>();
+    public static Map<UUID, Integer> statsMulti = new HashMap<>();
 
 
-    public boolean createAccount(OfflinePlayer PlayerName)
-    {
-        if (!statsMulti.containsKey("Accounts."+PlayerName.getUniqueId()+".Multi")) {
-            System.out.println("17");
-            statsMulti.put(PlayerName.getUniqueId(), 0);
-            Button.statsYML.set("Accounts."+PlayerName.getUniqueId()+".Multi", 0);
-            Button.stats.saveConfig();
-            return true;
-        }
-        System.out.println("23");
-        return false;
+    public static boolean createAccount(OfflinePlayer PlayerName) {
+        System.out.println("resat / ny account");
+        statsMulti.put(PlayerName.getUniqueId(), 0);
+        Button.statsYML.set("Accounts." + PlayerName.getUniqueId() + ".Multi", 0);
+        Button.stats.saveConfig();
+        System.out.println("statsMulti" + statsMulti);
+        return true;
+    }
+    public static boolean loadAccount(OfflinePlayer PlayerName) {
+        System.out.println("allerede account - multi: " + Button.statsYML.get("Accounts."+PlayerName.getUniqueId()+".Multi"));
+        statsMulti.put(PlayerName.getUniqueId(), (Integer) Button.statsYML.get("Accounts."+PlayerName.getUniqueId()+".Multi"));
+        return true;
     }
 
     public boolean addMulti(OfflinePlayer PlayerName, Integer Amount) {
@@ -46,12 +47,14 @@ public class Stats {
         return statsMulti.containsKey("Accounts."+PlayerName.getUniqueId()+".Multi");
     }
 
-
     public boolean deleteAccount(OfflinePlayer PlayerName) {
         if (statsMulti.containsKey(PlayerName.getUniqueId())) {
             statsMulti.remove(PlayerName.getUniqueId());
 
-            Button.statsYML.set("Accounts."+ PlayerName.getUniqueId()+".Multi", null);
+            Button.statsYML.set("Accounts."+ PlayerName.getUniqueId(), null);
+            if (PlayerName.isOnline()) {
+                Stats.createAccount(PlayerName);
+            }
 
             return true;
         }
