@@ -1,6 +1,7 @@
 package dk.button.events;
 
 import dk.button.Button;
+import dk.button.commands.Spawn;
 import dk.button.utils.Chat;
 import dk.button.utils.Stats;
 import dk.button.utils.Title;

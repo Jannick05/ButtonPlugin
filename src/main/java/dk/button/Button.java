@@ -1,7 +1,7 @@
 package dk.button;
 
-import dk.button.commands.Admin;
-import dk.button.commands.Mad;
+import dk.button.commands.*;
+import dk.button.events.ChatListener;
 import dk.button.events.Claim;
 import dk.button.events.PlayerJoin;
 import dk.button.events.Weather;
@@ -37,8 +37,10 @@ public final class Button extends JavaPlugin {
 
         getCommand("Admin").setExecutor(new Admin());
         getCommand("Mad").setExecutor(new Mad());
-        getServer().getPluginManager().registerEvents(new PlayerJoin(this), this); //PIskold
-        //getServer().getPluginManager().registerEvents(new PlayerMove(), this);
+        getCommand("Buy").setExecutor(new Buy());
+        getCommand("SetSpawn").setExecutor(new SetSpawn());
+        getCommand("Spawn").setExecutor(new Spawn());
+        getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new Claim(), this);
         getServer().getPluginManager().registerEvents(new Weather(), this);
 
@@ -110,7 +112,7 @@ public final class Button extends JavaPlugin {
                 Chat.colored("&2&l"+board.getPlayer().getName()),
                 Chat.colored("&a〡 &7Credits: &f"+Format.format(Econ.getBalance(board.getPlayer()))),
                 Chat.colored("&a〡 &7Multiplier: &f"+Format.format(statsT.getMulti(board.getPlayer()))),
-                //Chat.colored("&a- &7Rebirth: &f"+Econ.getBalance(board.getPlayer())),
+                Chat.colored("&a〡 &7Rebirth: &f"+Format.format(statsT.getRebirth(board.getPlayer()))),
                 "",
                 Chat.colored("&7button.superawesome.dk")
         );

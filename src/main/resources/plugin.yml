@@ -13,3 +13,7 @@ commands:
     description: giver dig mad, ok?
   buy:
     description: åbner buy menu
+  setspawn:
+    description: Sætter spawn
+  spawn:
+    description: Teleporter dig til spawn
