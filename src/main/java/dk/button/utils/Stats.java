@@ -9,19 +9,20 @@ import java.util.UUID;
 public class Stats {
 
     public static Map<UUID, Integer> statsMulti = new HashMap<>();
+    public static Map<UUID, Integer> statsRebirth = new HashMap<>();
 
 
     public static boolean createAccount(OfflinePlayer PlayerName) {
-        System.out.println("resat / ny account");
         statsMulti.put(PlayerName.getUniqueId(), 0);
+        statsRebirth.put(PlayerName.getUniqueId(), 0);
         Button.statsYML.set("Accounts." + PlayerName.getUniqueId() + ".Multi", 0);
+        Button.statsYML.set("Accounts." + PlayerName.getUniqueId() + ".Rebirth", 0);
         Button.stats.saveConfig();
-        System.out.println("statsMulti" + statsMulti);
         return true;
     }
     public static boolean loadAccount(OfflinePlayer PlayerName) {
-        System.out.println("allerede account - multi: " + Button.statsYML.get("Accounts."+PlayerName.getUniqueId()+".Multi"));
         statsMulti.put(PlayerName.getUniqueId(), (Integer) Button.statsYML.get("Accounts."+PlayerName.getUniqueId()+".Multi"));
+        statsRebirth.put(PlayerName.getUniqueId(), (Integer) Button.statsYML.get("Accounts."+PlayerName.getUniqueId()+".Rebirth"));
         return true;
     }
 
@@ -41,6 +42,35 @@ public class Stats {
             return (int) statsMulti.get(PlayerName.getUniqueId());
         }
         return 0;
+    }
+
+    public int getRebirth(OfflinePlayer PlayerName) {
+        if (statsRebirth.containsKey(PlayerName.getUniqueId())) {
+            return (int) statsRebirth.get(PlayerName.getUniqueId());
+        }
+        return 0;
+    }
+    public boolean addRebirth(OfflinePlayer PlayerName, Integer Amount) {
+        if (statsMulti.containsKey(PlayerName.getUniqueId())) {
+            int result = (int) statsRebirth.get(PlayerName.getUniqueId()) + Amount;
+
+            statsRebirth.put(PlayerName.getUniqueId(), result);
+            Button.statsYML.set("Accounts."+ PlayerName.getUniqueId()+".Rebirth", result);
+            Button.stats.saveConfig();
+            return true;
+        }
+        return false;
+    }
+    public boolean remRebirth(OfflinePlayer PlayerName, Integer Amount) {
+        if (statsMulti.containsKey(PlayerName.getUniqueId())) {
+            int result = (int) statsRebirth.get(PlayerName.getUniqueId()) - Amount;
+
+            statsRebirth.put(PlayerName.getUniqueId(), result);
+            Button.statsYML.set("Accounts."+ PlayerName.getUniqueId()+".Rebirth", result);
+            Button.stats.saveConfig();
+            return true;
+        }
+        return false;
     }
 
     public boolean hasAccount(OfflinePlayer PlayerName) {

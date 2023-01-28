@@ -11,3 +11,5 @@ commands:
     description: Admin command for Button
   mad:
     description: giver dig mad, ok?
+  buy:
+    description: åbner buy menu

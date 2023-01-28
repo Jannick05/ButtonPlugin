@@ -25,19 +25,33 @@ public class MoneyLoopTask implements Runnable {
                 String key = entry.getKey();
                 Cuboid cuboid = entry.getValue();
                 if (cuboid.isIn(player)) {
+                    Bukkit.broadcastMessage(key.toString());
                     if(key.contains("knap")) {
                         int price = Button.configYML.getInt("regions."+key+".price");
                         int multiGet = Button.configYML.getInt("regions."+key+".multi");
                         if(Econ.getBalance(player) >= price) {
                             Econ.remMoney(player, price);
                             stats.addMulti(player, multiGet);
-                            String message = Chat.colored("&8[ &a&lUPGRADE &8] &fDin multiplier blev forøget til &a&l" + stats.getMulti(player));
+                            String message = Chat.colored("&8[ &a&lUPGRADE &8] &fDin multiplier blev forøget til &a&l" + Format.format(stats.getMulti(player)));
                             ActionBar.sendActionBar(player, message);
                         } else {
-                            String message = Chat.colored("&8[ &a&lUPGRADE &8] &cDu mangler &c&n" + (price - Econ.getBalance(player)) + "&c for at opgradere");
+                            String message = Chat.colored("&8[ &a&lUPGRADE &8] &cDu mangler &c&n" + Format.format((price - Econ.getBalance(player))) + "&c for at opgradere");
                             ActionBar.sendActionBar(player, message);
                         }
 
+                    } else if(key.contains("rebirth")) {
+                        Bukkit.broadcastMessage("rebirth 1");
+                        int multiGet = Button.configYML.getInt("regions."+key+".multi");
+                        int rebirthGet = Button.configYML.getInt("regions."+key+".rebirth");
+                        if(multi >= multiGet) {
+                            stats.remMulti(player, multiGet);
+                            stats.addRebirth(player, rebirthGet);
+                            String message = Chat.colored("&8[ &a&lUPGRADE &8] &fDin rebirth blev forøget til &a&l" + Format.format(stats.getRebirth(player)));
+                            ActionBar.sendActionBar(player, message);
+                        } else {
+                            String message = Chat.colored("&8[ &a&lUPGRADE &8] &cDu mangler &c&n" + Format.format((multi - multiGet)) + "&c for at opgradere");
+                            ActionBar.sendActionBar(player, message);
+                        }
                     }
                 }
             }

@@ -33,10 +33,8 @@ public class PlayerJoin implements Listener {
 
         if (!stats.hasAccount(p)) {
             stats.createAccount(p);
-            System.out.println(p + "har ikke account");
         } else {
             stats.loadAccount(p);
-            System.out.println(p + "has account");
         }
     }
 }

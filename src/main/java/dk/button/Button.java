@@ -75,7 +75,6 @@ public final class Button extends JavaPlugin {
 
 
         getServer().getScheduler().runTaskTimer(this, () -> {
-            System.out.println("getServer().getScheduler().runTaskTimer - 80");
             for (Board board : this.boards.values()) {
                 updateBoard(board);
             }
