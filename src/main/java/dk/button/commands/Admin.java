@@ -3,6 +3,7 @@ package dk.button.commands;
 import dk.button.Button;
 import dk.button.events.Claim;
 import dk.button.utils.Chat;
+import dk.button.utils.Config;
 import dk.button.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,8 +12,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
 
 
 public class Admin implements CommandExecutor {
@@ -41,41 +45,64 @@ public class Admin implements CommandExecutor {
 
         } else if (args[0].equalsIgnoreCase("delete")) {
             OfflinePlayer offlinePlayer = Bukkit.getPlayer(args[1]);
-            sender.sendMessage(Chat.colored("&fSlettede &c" + offlinePlayer.getName() + "&c's &faccount"));
+            p.sendMessage(Chat.colored("&fSlettede &c" + offlinePlayer.getName() + "&c's &faccount"));
             stats.deleteAccount(offlinePlayer);
             return true;
 
         } else if (args[0].equalsIgnoreCase("getwand")) {
-            p.sendMessage(Chat.colored("&fDu fik din wand"));
+            p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Venstre klik: vælg pos #1; Højre klik: vælg pos #2"));
             p.getInventory().addItem(new ItemStack(Material.DIAMOND_AXE, 1));
             return true;
 
-        } else if (args[0].equalsIgnoreCase("createRegion")) {
+        } else if (args[0].equalsIgnoreCase("createRG")) {
             String regionName = args[1];
 
 
             if (Claim.adminClaim.containsKey("pos1") && Claim.adminClaim.containsKey("pos2")) {
-                Location Loc1 =  Claim.adminClaim.get("pos1");
-                Location Loc2 =  Claim.adminClaim.get("pos2");
+                //Config regions = new Config(Button.getInstance(), null, "regions.yml");
+                //FileConfiguration regionsYML = regions.getConfig();
+
+                if(!Button.regionsYML.contains("regions."+regionName)) {
+
+                    Location Loc1 = Claim.adminClaim.get("pos1");
+                    Location Loc2 = Claim.adminClaim.get("pos2");
 
 
-                p.sendMessage(Chat.colored("&fDu har oprettet regionen &a" + regionName));
-                Button.regionsYML.set("regions."+regionName+".pos1.x", Loc1.getX());
-                Button.regionsYML.set("regions."+regionName+".pos1.y", Loc1.getY());
-                Button.regionsYML.set("regions."+regionName+".pos1.z", Loc1.getZ());
+                    p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8)&7 Du har oprettet en region med navnet &a" + regionName));
+                    Button.regionsYML.set("regions." + regionName + ".pos1.x", Loc1.getX());
+                    Button.regionsYML.set("regions." + regionName + ".pos1.y", Loc1.getY());
+                    Button.regionsYML.set("regions." + regionName + ".pos1.z", Loc1.getZ());
 
-                Button.regionsYML.set("regions."+regionName+".pos2.x", Loc2.getX());
-                Button.regionsYML.set("regions."+regionName+".pos2.y", Loc2.getY());
-                Button.regionsYML.set("regions."+regionName+".pos2.z", Loc2.getZ());
-                Button.regionsYML.set("regions."+regionName+"price", 50);
-                Button.regionsYML.set("regions."+regionName+"multiplier", 1);
-                Button.regions.saveConfig();
+                    Button.regionsYML.set("regions." + regionName + ".pos2.x", Loc2.getX());
+                    Button.regionsYML.set("regions." + regionName + ".pos2.y", Loc2.getY());
+                    Button.regionsYML.set("regions." + regionName + ".pos2.z", Loc2.getZ());
+                    Button.regionsYML.set("regions." + regionName + ".price", 50);
+                    Button.regionsYML.set("regions." + regionName + ".multiplier", 1);
+                    Button.regions.saveConfig();
+
+                } else {
+                    p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Denne region eksistere allerede!"));
+                }
+
 
             } else {
-                p.sendMessage(Chat.colored("&fDu skal vælge nogle lokationer &c/admin getwand"));
-                return true;
+                p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8)&7 Du skal vælge nogle lokationer &c/admin getwand"));
             }
 
+            return true;
+
+        } else if (args[0].equalsIgnoreCase("deleteRG")) {
+            String regionName = args[1];
+
+            Button.regionsYML.set("regions." + regionName, null);
+
+            try {
+                Button.regionsYML.save("regions.yml");
+                p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Slettede region &c" + regionName));
+            } catch (IOException e) {
+                p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Noget gik galt"));
+                e.printStackTrace();
+            }
             return true;
 
         } else if (args[0].equalsIgnoreCase("reload")) {
@@ -108,6 +135,8 @@ public class Admin implements CommandExecutor {
         sb = sb + "&7/" + command + " getmulti <player> &8» " + "&fTjekker &cMultiplier" + "\n ";
         sb = sb + "&7/" + command + " delete <player> &8» " + "&fSletter &cSpiller" + "\n ";
         sb = sb + "&7/" + command + " getwand &8» " + "&fGiver dig en &cWand" + "\n ";
+        sb = sb + "&7/" + command + " createRG &8» " + "&fOpretter en &cRegion" + "\n ";
+        sb = sb + "&7/" + command + " deleteRG &8» " + "&fSletter en &cRegion" + "\n ";
         sender.sendMessage(Chat.colored(sb));
     }
 }

@@ -1,5 +1,6 @@
 package dk.button.events;
 
+import dk.button.utils.Chat;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,20 +25,16 @@ public class Claim implements Listener {
 
         ItemStack item = p.getItemInHand();
         Material material = item.getType();
-        p.sendMessage("&fBreak");
-        if (p.isOp()) {
-            p.sendMessage("&fBreak2");
-            if (p.getGameMode() == GameMode.CREATIVE) {
-                p.sendMessage("&fBreak3");
-                if(material == Material.DIAMOND_AXE) {
-                    p.sendMessage("&fBreak4");
-                    event.setCancelled(true);
-                    p.sendMessage("&fDu satte pos1 til &c" + event.getBlock().getLocation());
-                    adminClaim.put("pos1", event.getBlock().getLocation());
 
-                }
+        Double x = event.getBlock().getLocation().getX();
+        Double y = event.getBlock().getLocation().getY();
+        Double z = event.getBlock().getLocation().getZ();
 
-            }
+        if (p.isOp() && p.getGameMode() == GameMode.CREATIVE && material == Material.DIAMOND_AXE) {
+            event.setCancelled(true);
+            p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Du satte pos 1 til (" + x + ", " + y + ", " + z + ")"));
+            adminClaim.put("pos1", event.getBlock().getLocation());
+
         }
     }
 
@@ -47,20 +44,16 @@ public class Claim implements Listener {
 
         ItemStack item = p.getItemInHand();
         Material material = item.getType();
-        p.sendMessage(event.getAction().toString());
+
+        Double x = event.getClickedBlock().getLocation().getX();
+        Double y = event.getClickedBlock().getLocation().getY();
+        Double z = event.getClickedBlock().getLocation().getZ();
+
         if(event.getAction().toString().equals("RIGHT_CLICK_BLOCK")) {
-            p.sendMessage("&fLeftClick1");
-            if (p.isOp()) {
-                p.sendMessage("&fLeftClick2");
-                if (p.getGameMode() == GameMode.CREATIVE) {
-                    p.sendMessage("&fLeftClick3");
-                    if(material == Material.DIAMOND_AXE) {
-                        p.sendMessage("&fLeftClick4");
-                        event.setCancelled(true);
-                        p.sendMessage("&fDu satte pos1 til &c" + event.getClickedBlock().getLocation());
-                        adminClaim.put("pos2", event.getClickedBlock().getLocation());
-                    }
-                }
+            if (p.isOp() && p.getGameMode() == GameMode.CREATIVE && material == Material.DIAMOND_AXE) {
+                event.setCancelled(true);
+                p.sendMessage(Chat.colored("&8(&4&lBUTTONS&8) &7Du satte pos 2 til (" + x + ", " + y + ", " + z + ")"));
+                adminClaim.put("pos2", event.getClickedBlock().getLocation());
             }
         }
     }
