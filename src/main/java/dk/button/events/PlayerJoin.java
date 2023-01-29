@@ -42,10 +42,12 @@ public class PlayerJoin implements Listener {
 
         //Checks if the player has a permission or group, and then grants them the corresponding speed.
         if(p.hasPermission("group.vip")) {
+            Bukkit.broadcastMessage("VIP JOINEDE");
             p.setWalkSpeed((float) 0.2888889);
         }
 
         if(p.hasPermission("speed")) {
+            Bukkit.broadcastMessage("SPEED JOINEDE");
             p.setWalkSpeed((float) 0.4666667);
         }
     }
