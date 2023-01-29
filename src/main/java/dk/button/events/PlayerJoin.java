@@ -29,6 +29,7 @@ public class PlayerJoin implements Listener {
         plugin.boards.put(p.getUniqueId(), board);
         Title.sendTabTitle(p, "&a&lBUTTON &f&lSIMULATOR", "");
 
+        p.teleport(Spawn.getSpawn());
 
         Stats stats = new Stats();
 
@@ -36,6 +37,16 @@ public class PlayerJoin implements Listener {
             stats.createAccount(p);
         } else {
             stats.loadAccount(p);
+        }
+
+
+        //Checks if the player has a permission or group, and then grants them the corresponding speed.
+        if(p.hasPermission("group.vip")) {
+            p.setWalkSpeed((float) 0.2888889);
+        }
+
+        if(p.hasPermission("speed")) {
+            p.setWalkSpeed((float) 0.4666667);
         }
     }
 }

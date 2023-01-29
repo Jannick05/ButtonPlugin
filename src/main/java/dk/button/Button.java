@@ -1,10 +1,7 @@
 package dk.button;
 
 import dk.button.commands.*;
-import dk.button.events.ChatListener;
-import dk.button.events.Claim;
-import dk.button.events.PlayerJoin;
-import dk.button.events.Weather;
+import dk.button.events.*;
 import dk.button.tasks.MoneyLoopTask;
 import dk.button.utils.*;
 
@@ -46,6 +43,8 @@ public final class Button extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         getServer().getPluginManager().registerEvents(new Claim(), this);
         getServer().getPluginManager().registerEvents(new Weather(), this);
+        getServer().getPluginManager().registerEvents(new InventoryClick(), this);
+        getServer().getPluginManager().registerEvents(new InteractEvent(), this);
 
         //CONFIGS -------------------------------
         //Config.yml
