@@ -2,10 +2,7 @@ package dk.button.commands;
 
 import dk.button.Button;
 import dk.button.events.Claim;
-import dk.button.utils.Chat;
-import dk.button.utils.Config;
-import dk.button.utils.Regions;
-import dk.button.utils.Stats;
+import dk.button.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -106,7 +103,8 @@ public class Admin implements CommandExecutor {
                 e.printStackTrace();
             }
             return true;
-
+        } else if (args[0].equalsIgnoreCase("rejsebog")) {
+            p.getInventory().addItem(GUI.createGuiItem(Material.BOOK, Chat.colored("&c&lREJSE &f&lBOGEN")));
         } else if (args[0].equalsIgnoreCase("reload")) {
             boolean reloadSuccess;
             try {

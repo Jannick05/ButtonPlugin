@@ -8,6 +8,8 @@ description: Button Simulator plugin for Superawesome.dk
 website: cutekat.dk
 commands:
   admin:
+    aliases:
+      - ad
     description: Admin command for Button
   mad:
     description: giver dig mad, ok?
