@@ -56,7 +56,7 @@ public class GUI {
         meta.setDisplayName(name);
 
         // Set the lore of the item
-        meta.setLore(Arrays.asList(Chat.colored(Arrays.toString(lore))));
+        meta.setLore(Arrays.asList(lore));
 
         item.setItemMeta(meta);
 

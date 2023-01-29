@@ -122,6 +122,8 @@ public final class Button extends JavaPlugin {
         );
     }
 
-
+    public static Button getInstance(){
+        return instance;
+    }
 
 }
