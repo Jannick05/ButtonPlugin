@@ -140,13 +140,14 @@ public class Admin implements CommandExecutor {
     private void sendDefaultCommand(CommandSender sender, String command){
         String sb = "";
         sb = sb + "\n ";
-        sb = sb + "&7/" + command + " reload &8» " + "&fReloader &cconfig.yml" + "\n ";
+        sb = sb + "&7/" + command + " reload &8» " + "&fReloader &calle configs" + "\n ";
         sb = sb + "&7/" + command + " addmulti <player> <int> &8» " + "&fTilføj &cMultiplier" + "\n ";
         sb = sb + "&7/" + command + " getmulti <player> &8» " + "&fTjekker &cMultiplier" + "\n ";
         sb = sb + "&7/" + command + " delete <player> &8» " + "&fSletter &cSpiller" + "\n ";
         sb = sb + "&7/" + command + " getwand &8» " + "&fGiver dig en &cWand" + "\n ";
-        sb = sb + "&7/" + command + " createRG &8» " + "&fOpretter en &cRegion" + "\n ";
-        sb = sb + "&7/" + command + " deleteRG &8» " + "&fSletter en &cRegion" + "\n ";
+        sb = sb + "&7/" + command + " createRG <region> &8» " + "&fOpretter en &cRegion" + "\n ";
+        sb = sb + "&7/" + command + " deleteRG <region> &8» " + "&fSletter en &cRegion" + "\n ";
+        sb = sb + "&7/" + command + " rejsebog &8» " + "&fSletter en &cRegion" + "\n ";
         sender.sendMessage(Chat.colored(sb));
     }
 }
