@@ -17,15 +17,22 @@ public class InteractEvent implements Listener {
 
     @EventHandler
     public void onInteractEvent(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        Action a = e.getAction();
-        if ((a == Action.PHYSICAL) || (e.getItem() == null) || (e.getItem().getType() == Material.STICK)) return;
+        try {
+            Player p = e.getPlayer();
+            ItemStack i = e.getItem();
+            if (i.toString() == "null") {
+                return;
+            }
 
-        if (e.getItem().getItemMeta().getDisplayName().equals(Chat.colored("&c&lREJSE &f&lBOGEN"))) {
-            inv = Bukkit.createInventory(null, 9*1, Chat.colored("&c&lREJSE &f&lBOGEN"));
-            inv.setItem(0, GUI.createItemStack(new ItemStack(Material.GRASS), Chat.colored("&2&lGRASSLANDS"), Chat.colored("&7"), Chat.colored("&fAdang:"), Chat.colored("&8&l» &aJa"), Chat.colored("&7")));
+            if (i.getItemMeta().getDisplayName().equals(Chat.colored("&c&lREJSE &f&lBOGEN"))) {
+                inv = Bukkit.createInventory(null, 9*1, Chat.colored("&c&lREJSE &f&lBOGEN"));
+                inv.setItem(0, GUI.createItemStack(new ItemStack(Material.GRASS), Chat.colored("&2&lGRASSLANDS"), Chat.colored("&7"), Chat.colored("&fAdang:"), Chat.colored("&8&l» &aJa"), Chat.colored("&7")));
 
-            p.openInventory(inv);
+                p.openInventory(inv);
+            }
+
+        } catch (Exception ex) {
+            //ex.printStackTrace();
         }
     }
 }

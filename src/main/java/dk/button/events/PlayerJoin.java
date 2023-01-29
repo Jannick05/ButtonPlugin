@@ -6,11 +6,17 @@ import dk.button.utils.Chat;
 import dk.button.utils.Stats;
 import dk.button.utils.Title;
 import dk.button.utils.board.Board;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+
+import java.util.Collection;
+
+import static dk.button.Button.luckPerms;
 
 public class PlayerJoin implements Listener {
     Button plugin;
@@ -19,6 +25,14 @@ public class PlayerJoin implements Listener {
         this.plugin = plugin;
     }
 
+    public static String getPlayerGroup(Player player, Collection<String> possibleGroups) {
+        for (String group : possibleGroups) {
+            if (player.hasPermission("group." + group)) {
+                return group;
+            }
+        }
+        return null;
+    }
 
     @EventHandler
     public void onPlayer(PlayerJoinEvent e) {
@@ -29,6 +43,7 @@ public class PlayerJoin implements Listener {
         plugin.boards.put(p.getUniqueId(), board);
         Title.sendTabTitle(p, "&a&lBUTTON &f&lSIMULATOR", "");
 
+        System.out.println("SPILLER JOIN EVENT ------------");
         p.teleport(Spawn.getSpawn());
 
         Stats stats = new Stats();
@@ -41,14 +56,16 @@ public class PlayerJoin implements Listener {
 
 
         //Checks if the player has a permission or group, and then grants them the corresponding speed.
+
+
         if(p.hasPermission("group.vip")) {
-            Bukkit.broadcastMessage("VIP JOINEDE");
             p.setWalkSpeed((float) 0.2888889);
         }
 
         if(p.hasPermission("speed")) {
-            Bukkit.broadcastMessage("SPEED JOINEDE");
             p.setWalkSpeed((float) 0.4666667);
         }
+
+
     }
 }

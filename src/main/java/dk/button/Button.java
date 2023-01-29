@@ -7,6 +7,7 @@ import dk.button.utils.*;
 
 
 import dk.button.utils.board.Board;
+import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,6 +28,8 @@ public final class Button extends JavaPlugin {
     public static Economy econ = null;
 
     private static PluginManager pluginManager;
+
+    public static LuckPerms luckPerms;
     public static Config config, stats, regions;
     public static FileConfiguration configYML, statsYML, regionsYML;
     public Stats statsT = new Stats();
@@ -123,6 +126,10 @@ public final class Button extends JavaPlugin {
 
     public static Button getInstance(){
         return instance;
+    }
+
+    public static LuckPerms getLuckPerms() {
+        return luckPerms;
     }
 
 }
