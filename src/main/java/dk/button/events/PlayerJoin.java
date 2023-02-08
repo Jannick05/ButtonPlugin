@@ -38,6 +38,7 @@ public class PlayerJoin implements Listener {
     public void onPlayer(PlayerJoinEvent e) {
 
         Player p = (Player) e.getPlayer();
+        e.setJoinMessage(Chat.colored("&a"));
         Board board = new Board(p);
         board.updateTitle(Chat.colored("&a&lBUTTON &7&o("+Bukkit.getServer().getOnlinePlayers().size()+")"));
         plugin.boards.put(p.getUniqueId(), board);

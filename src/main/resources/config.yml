@@ -3,6 +3,9 @@ admins:
     - "Nydt"
     - "Shad0wsense"
 
+cooldown:
+    time: 10
+
 regions:
     knap1:
         multiplier: 1
