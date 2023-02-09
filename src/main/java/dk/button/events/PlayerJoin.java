@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 
 import java.util.Collection;
@@ -38,7 +41,7 @@ public class PlayerJoin implements Listener {
     public void onPlayer(PlayerJoinEvent e) {
 
         Player p = (Player) e.getPlayer();
-        e.setJoinMessage(Chat.colored("&a"));
+        e.setJoinMessage(Chat.colored("&a " + p));
         Board board = new Board(p);
         board.updateTitle(Chat.colored("&a&lBUTTON &7&o("+Bukkit.getServer().getOnlinePlayers().size()+")"));
         plugin.boards.put(p.getUniqueId(), board);
@@ -67,6 +70,23 @@ public class PlayerJoin implements Listener {
             p.setWalkSpeed((float) 0.4666667);
         }
 
+        if(p.isOp()) {
+            addExtraName(p, Chat.colored("&c&lEJER"));
+        }
 
     }
+
+
+
+    public void addExtraName(Player player, String extraName) {
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective(extraName, "dummy");
+        objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
+
+        player.setScoreboard(scoreboard);
+        objective.getScore(extraName).setScore(9999);
+
+
+    }
+
 }

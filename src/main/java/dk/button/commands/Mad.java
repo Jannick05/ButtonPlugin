@@ -19,13 +19,11 @@ public class Mad implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
         int cooldownTime = Button.configYML.getInt("cooldown.time", 10);
-        Bukkit.broadcastMessage("cooldownTime " + cooldownTime);
-        Bukkit.broadcastMessage("cooldowns " + cooldowns);
 
         if(cooldowns.containsKey(p.getName())) {
             long secondsLeft = ((cooldowns.get(sender.getName())/1000)+cooldownTime) - (System.currentTimeMillis()/1000);
             if(secondsLeft > 0) {
-                sender.sendMessage(Chat.colored("Du skal vente " + secondsLeft + " sekunder!"));
+                sender.sendMessage(Chat.colored("&fDu skal vente &c" + secondsLeft + "&f sekunder!"));
                 return true;
             }
         }
